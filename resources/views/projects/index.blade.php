@@ -17,6 +17,7 @@
           <tr>
             <th>ID</th>
             <th>Tipo</th>
+            <th>Tecnologie</th>
             <th>Titolo</th>
             <th>Slug</th>
             <th>Cliente</th>
@@ -31,7 +32,14 @@
           @forelse ($projects as $project)
               <tr>
                 <td>{{ $project->id }}</td>
-                <td>{{ $project->type_id }}</td>
+                <td>{{$project->type ? $project->type->name : '-'}}</td>
+                <td>
+                  @forelse($project->technologies()->orderBy('name','asc')->get() as $technology )
+                    <span class="badge rounded-pill text-bg-primary">{{ $technology->name }}</span>
+                  @empty
+                    -
+                  @endforelse
+                </td>
                 <td>
                   <a href="{{ route('projects.show',$project) }}">{{ $project->title }}</a>
                 </td>
